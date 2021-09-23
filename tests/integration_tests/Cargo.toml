@@ -11,3 +11,5 @@ singlemalt = { path = "../../" }
 tonic = "0.5"
 prost = "0.8"
 tokio = "*"
+tokio-test = "*"
+proptest = "*"
