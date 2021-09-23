@@ -1,11 +1,11 @@
-use tonic::{transport::Server, Request, Response, Status};
-
-use singlemalt_proto::approximate_set_service_server::{ApproximateSetService, ApproximateSetServiceServer};
-use singlemalt_proto::{InsertReply, InsertRequest};
-
 pub mod singlemalt_proto {
     tonic::include_proto!("singlemalt_proto");
 }
+
+use tonic::{Request, Response, Status};
+
+use singlemalt_proto::approximate_set_service_server::ApproximateSetService;
+use singlemalt_proto::{InsertReply, InsertRequest};
 
 #[derive(Debug, Default)]
 pub struct CuckooFilterService {}
@@ -22,17 +22,4 @@ impl ApproximateSetService for CuckooFilterService {
 
         Ok(Response::new(reply))
     }
-}
-
-#[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let addr = "[::1]:50051".parse()?;
-    let filter = CuckooFilterService::default();
-
-    Server::builder()
-        .add_service(ApproximateSetServiceServer::new(filter))
-        .serve(addr)
-        .await?;
-
-    Ok(())
 }

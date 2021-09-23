@@ -8,7 +8,7 @@ edition = "2018"
 
 [[bin]]
 name = "singlemalt-server"
-path = "src/server.rs"
+path = "src/server/mod.rs"
 
 [[bin]]
 name = "singlemalt-client"
@@ -23,6 +23,3 @@ prost = "0.8"
 
 [build-dependencies]
 tonic-build = "0.5"
-
-[dev-dependencies]
-rstest = "0.11.0"
