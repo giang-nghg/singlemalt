@@ -295,6 +295,7 @@ dependencies = [
  "prost",
  "rstest",
  "singlemalt",
+ "tokio",
  "tonic",
 ]
 

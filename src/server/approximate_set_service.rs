@@ -17,7 +17,7 @@ impl ApproximateSetService for CuckooFilterService {
         request: Request<InsertRequest>,
     ) -> Result<Response<InsertReply>, Status> {
         let reply = singlemalt_proto::InsertReply {
-            message: format!("Hello {}!", request.into_inner().value).into(),
+            message: format!("{}", request.into_inner().value).into(),
         };
 
         Ok(Response::new(reply))

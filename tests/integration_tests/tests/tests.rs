@@ -1,19 +1,17 @@
-mod common;
+mod fixtures;
 
-#[cfg(test)]
-mod tests {
-    use crate::common::server;
-    use singlemalt::server::approximate_set_service::singlemalt_proto::approximate_set_service_client::ApproximateSetServiceClient;
-    use singlemalt::server::approximate_set_service::singlemalt_proto::InsertRequest;
-    use singlemalt::server::approximate_set_service::singlemalt_proto::approximate_set_service_server::ApproximateSetService;
+use crate::fixtures::test_client;
+use singlemalt::server::approximate_set_service::singlemalt_proto::InsertRequest;
 
-    #[test]
-    fn insert_an_element() {
-        let server = server();
-        let request = tonic::Request::new(InsertRequest {
-            value: "Tonic".into(),
-        });
+#[tokio::test]
+async fn insert_an_element() {
+    let mut client = test_client().await;
 
-        server.insert(request);
-    }
+    let request = tonic::Request::new(InsertRequest {
+        value: "Tonic".into(),
+    });
+
+    let response = client.insert(request).await.unwrap().into_inner();
+
+    assert_eq!("Tonic", response.message);
 }
