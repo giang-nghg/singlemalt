@@ -6,6 +6,14 @@ edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[[bin]]
+name = "singlemalt-server"
+path = "src/server.rs"
+
+[[bin]]
+name = "singlemalt-client"
+path = "src/client.rs"
+
 [dependencies]
 probabilistic-collections = { version = "*", features = ["serde"] }
 bincode = "1.3.3"
@@ -16,10 +24,5 @@ prost = "0.8"
 [build-dependencies]
 tonic-build = "0.5"
 
-[[bin]] # Bin to run the HelloWorld gRPC server
-name = "helloworld-server"
-path = "src/server.rs"
-
-[[bin]] # Bin to run the HelloWorld gRPC client
-name = "helloworld-client"
-path = "src/client.rs"
+[dev-dependencies]
+rstest = "0.11.0"

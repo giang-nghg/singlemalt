@@ -1,25 +1,23 @@
 use tonic::{transport::Server, Request, Response, Status};
 
-use hello_world::greeter_server::{Greeter, GreeterServer};
-use hello_world::{HelloReply, HelloRequest};
+use singlemalt_proto::approximate_set_service_server::{ApproximateSetService, ApproximateSetServiceServer};
+use singlemalt_proto::{InsertReply, InsertRequest};
 
-pub mod hello_world {
-    tonic::include_proto!("helloworld");
+pub mod singlemalt_proto {
+    tonic::include_proto!("singlemalt_proto");
 }
 
 #[derive(Debug, Default)]
-pub struct MyGreeter {}
+pub struct CuckooFilterService {}
 
 #[tonic::async_trait]
-impl Greeter for MyGreeter {
-    async fn say_hello(
+impl ApproximateSetService for CuckooFilterService {
+    async fn insert(
         &self,
-        request: Request<HelloRequest>,
-    ) -> Result<Response<HelloReply>, Status> {
-        println!("Got a request: {:?}", request);
-
-        let reply = hello_world::HelloReply {
-            message: format!("Hello {}!", request.into_inner().name).into(),
+        request: Request<InsertRequest>,
+    ) -> Result<Response<InsertReply>, Status> {
+        let reply = singlemalt_proto::InsertReply {
+            message: format!("Hello {}!", request.into_inner().value).into(),
         };
 
         Ok(Response::new(reply))
@@ -29,10 +27,10 @@ impl Greeter for MyGreeter {
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let addr = "[::1]:50051".parse()?;
-    let greeter = MyGreeter::default();
+    let filter = CuckooFilterService::default();
 
     Server::builder()
-        .add_service(GreeterServer::new(greeter))
+        .add_service(ApproximateSetServiceServer::new(filter))
         .serve(addr)
         .await?;
 

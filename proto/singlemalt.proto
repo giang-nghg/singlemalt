@@ -1,14 +1,14 @@
 syntax = "proto3";
-package helloworld;
+package singlemalt_proto;
 
-service Greeter {
-    rpc SayHello (HelloRequest) returns (HelloReply);
+service ApproximateSetService {
+    rpc Insert (InsertRequest) returns (InsertReply);
 }
 
-message HelloRequest {
-   string name = 1;
+message InsertRequest {
+   string value = 1;
 }
 
-message HelloReply {
+message InsertReply {
     string message = 1;
 }
